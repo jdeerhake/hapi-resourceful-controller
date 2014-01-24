@@ -1,0 +1,43 @@
+{
+  "private" : true,
+  "name": "hapi-resourceful-controller",
+  "description": "Resourceful controllers for hapi",
+  "version": "0.0.1",
+  "author": "John Deerhake <jdeerhake@gmail.com>",
+  "contributors": [],
+  "repository": "git@github.com:jdeerhake/hapi-resourceful-controller.git",
+  "bugs": {
+    "url": "https://github.com/jdeerhake/hapi-resourceful-controller/issues"
+  },
+  "main": "index",
+  "keywords": [
+    "hapi",
+    "plugin",
+    "resourceful",
+    "controller"
+  ],
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "extend": "~1.2.1",
+    "negotiator": "~0.4.1",
+    "http-status": "~0.1.4",
+    "bunyan": "~0.22.1"
+  },
+  "peerDependencies": {
+    "hapi": "~2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.16.2",
+    "expect.js": "~0.2.0"
+  },
+  "scripts": {},
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/jdeerhake/hapi-resourceful-controller/master/LICENSE"
+    }
+  ]
+}
