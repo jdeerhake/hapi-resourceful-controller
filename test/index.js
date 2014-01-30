@@ -1,7 +1,7 @@
 /*global describe, it*/
 
 var expect = require( "expect.js" ),
-  Controller = require( "./index.js" );
+  Controller = require( "./index.js" )
 
 describe( "A controller", function() {
   var thingsController = new Controller( "thing" );
