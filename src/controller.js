@@ -1,6 +1,6 @@
 var helpers = require( "./helpers" ),
   _ = require( "lodash" ),
-  handler = require( "./handler" ),
+  route = require( "./route" ),
   defaultResponders = require( "./responders" );
 
 
@@ -10,38 +10,42 @@ function controller( name ) {
     responders = _.clone( defaultResponders ),
     layout = null;
 
-  var pub = _.extend({
+  var pub = {
     name : name,
-    responders : responders,
     layout : layout,
     addHandler : function( action, callback, config ) {
-      config = config || {};
-      config.controller = pub;
-      handlers[ action ] = handler( action, callback, config );
+      handlers[ action ] = { handler : callback, config : config };
     },
     before : function( actions, func ) {
       if( func ) {
-        actions = [].concat( actions );
+        addBefore( [].concat( actions ), func );
+      } else if( typeof actions === "function" ) {
+        addBefore( [ "all" ], actions );
       } else {
-        func = actions;
-        actions = [ "all" ];
+        return getBeforeFor( actions );
       }
-
-      befores.push({
-        actions : actions,
-        func : func
-      });
     },
     interface : function() {
-      return _.mapValues( handlers, function( handler, action ) {
-        var routeDef = handler.toRoute();
-        routeDef.pre = beforeFor( action );
-        return helpers.lateBind( routeDef );
+      return _.mapValues( handlers, function( conf, action ) {
+        conf.pre = getBeforeFor( action );
+        conf.controller = pub;
+        return route( action, conf );
       } );
+    },
+    responseTypes : function() {
+      return Object.keys( responders );
+    },
+    addResponder : function( contentType, cb ) {
+      responders[ contentType ] = cb;
+    },
+    responderFor : function( contentType ) {
+      return responders[ contentType ];
     }
-  }, helpers.resourceConvenienceMethods );
+  };
 
-  function beforeFor( action ) {
+  _.extend( pub, helpers.resourceConvenienceMethods( pub.addHandler ) );
+
+  function getBeforeFor( action ) {
     return befores.reduce(function( out, before ) {
       if( before.actions.indexOf( action ) !== -1 ||
           before.actions.indexOf( "all" ) !== -1 ) {
@@ -49,6 +53,13 @@ function controller( name ) {
       }
       return out;
     }, []);
+  }
+
+  function addBefore( actions, func ) {
+    befores.push({
+      actions : actions,
+      func : func
+    });
   }
 
   pub.before( helpers.captureRequest );

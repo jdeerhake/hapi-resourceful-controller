@@ -2,17 +2,20 @@ var _ = require( "lodash" );
 
 function handler( action, controller ) {
 
-  var me = {
+  var pub = {
     render : function( obj, conf ) {
-      var responder = controller.responders[ me.wants ];
+      var responder = pub.responderFor( this.negotiatedType );
       if( responder ) {
-        responder.call( me, obj, renderDefaults( conf ) );
+        responder.call( pub, obj, renderDefaults( conf ) );
       } else {
-        me.reply( me.request.hapi.error.unsupportedMediaType() );
+        pub.reply( pub.request.hapi.error.unsupportedMediaType() );
       }
     },
     responseTypes : function() {
-      return Object.keys( controller.responders );
+      return controller.responseTypes();
+    },
+    responderFor : function( contentType ) {
+      return controller.responderFor( contentType );
     }
   };
 
@@ -20,10 +23,10 @@ function handler( action, controller ) {
     return _.merge({
       template : controller.name + "/" + action,
       layout : controller.layout
-    }, override);
+    }, override );
   }
 
-  return me;
+  return pub;
 }
 
 
