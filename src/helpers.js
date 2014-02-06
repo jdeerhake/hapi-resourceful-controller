@@ -1,12 +1,7 @@
 var Negotiator = require( "negotiator" ),
-  uuid = require( "uuid" ),
   RESOURCE_ACTIONS = [ "index", "new", "create", "show", "edit", "update", "destroy" ];
 
 var helpers = {
-  tagRequest : function( req ) {
-    this.uuid = req.app.uuid = uuid.v1();
-    return true;
-  },
   negotiateContentType : function( req ) {
     var negotiator = new Negotiator( req.raw.req );
     this.wantsTypes = negotiator.mediaTypes();

@@ -63,7 +63,6 @@ function controller( name ) {
   }
 
   pub.before( helpers.captureRequest );
-  pub.before( helpers.tagRequest );
   pub.before( helpers.negotiateContentType );
 
   return pub;

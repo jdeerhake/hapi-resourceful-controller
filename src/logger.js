@@ -1,27 +1,16 @@
-var bunyan = require( "bunyan" );
+var logger = {};
 
-module.exports = bunyan.createLogger({
-  name : "hapi-controller",
-  serializers : {
-    req : function(req) {
-      return {
-        headers : req._headers,
-        host : req.host,
-        path : req.path,
-        req_id : req.req_id
-      };
-    },
-    res : function(res) {
-      return {
-        status : res.statusCode,
-        req_id : res.req_id
-      };
-    }
-  },
-  streams : [
-    {
-      level : "info",
-      stream : process.stdout
-    }
-  ]
-});
+
+function log( level, data, msg ) {
+  if( logger[level] ) {
+    logger[level]( data, msg );
+  }
+}
+
+function init(logAPI) {
+  logger = logAPI;
+}
+
+log.init = init;
+
+module.exports = log;
