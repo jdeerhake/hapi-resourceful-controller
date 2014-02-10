@@ -12,7 +12,8 @@ var route = function( action, config ) {
       args = arguments;
 
     return pres.every( function( pre ) {
-      return pre.apply( bind, args );
+      var res = pre.apply( bind, args );
+      return res === undefined ? true : res;
     } );
   }
 

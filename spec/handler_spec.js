@@ -8,21 +8,13 @@ describe( "Handler", function() {
 
   beforeEach(function() {
     c = controller( "things" );
+    c.layout = "thingsLayout";
     h = handler( "show", c );
   });
 
   describe( "responseTypes", function() {
     it( "should delegate to the controller for available response types", function() {
       expect( h.responseTypes() ).toEqual( c.responseTypes() );
-    });
-  });
-
-  describe( "responderFor", function() {
-    var responder = function() {};
-
-    it( "exposes the controllers responder for a given contentType", function() {
-      c.addResponder( "text/html", responder );
-      expect( h.responderFor( "text/html" ) ).toBe( responder );
     });
   });
 
@@ -44,7 +36,6 @@ describe( "Handler", function() {
     });
 
     it( "provides a data object and default config to the responder", function() {
-      c.layout = "thingsLayout";
       var conf = { template : "things/show",
                   layout : "thingsLayout" };
 

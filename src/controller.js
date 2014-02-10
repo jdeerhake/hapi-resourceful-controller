@@ -13,6 +13,7 @@ function controller( name ) {
   var pub = {
     name : name,
     layout : layout,
+    data : {},
     addHandler : function( action, callback, config ) {
       handlers[ action ] = { handler : callback, config : config };
     },

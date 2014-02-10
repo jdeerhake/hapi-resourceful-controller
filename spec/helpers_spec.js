@@ -4,18 +4,6 @@ var helpers = require( "../src/helpers" );
 
 describe( "Helpers", function() {
 
-  describe( "#tagRequest", function() {
-    it( "should add a UUID to context and request obj", function() {
-      var req = { app : {} },
-        context = {};
-      helpers.tagRequest.call( context, req );
-
-      expect( context.uuid ).toBeDefined();
-      expect( req.app.uuid ).toBeDefined();
-      expect( req.app.uuid ).toEqual( context.uuid );
-    });
-  });
-
   describe( "captureRequest", function() {
     var context = {},
       req = { test : Math.random() },

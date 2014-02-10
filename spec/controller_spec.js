@@ -101,7 +101,6 @@ describe( "Controller instance", function() {
         helpers = require( "../src/helpers" );
 
       expect( befores ).toContain( helpers.captureRequest );
-      expect( befores ).toContain( helpers.tagRequest );
       expect( befores ).toContain( helpers.negotiateContentType );
     });
 
